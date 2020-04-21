@@ -1,15 +1,23 @@
 import React from "react";
 import "./App.css";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Login from "./components/Login";
+import PrivateRoute from "./utils/PrivateRoute";
+import Friends from "./components/Friends";
 
 function App() {
   return (
     <div className="App">
-      <h1>Here we go</h1>
+      <h1>Friends Auth Project</h1>
       <Switch>
         <Route path="/login" component={Login} />
       </Switch>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <PrivateRoute path="/protected" component={Friends} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
