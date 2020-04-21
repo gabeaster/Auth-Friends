@@ -1,68 +1,77 @@
-import React from "react";
-import { render } from "react-dom";
-import { withFormik, Form, Field } from "formik";
-import * as Yup from "yup";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
+import axios from "axios";
+import Loader from "react-loader-spinner";
 
-const Login = (props) => {
-  const { values, errors, touched, handleChange, isSubmitting } = props;
+const LoginForm = (props) => {
+  const [name, setName] = useState({
+    username: "Lambda School",
+    password: "i<3Lambd4",
+    isLoading: false,
+  });
+  const changeHandler = (event) => {
+    event.preventDefault();
+    setName({ ...name, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
+  const login = (e) => {
+    e.preventDefault();
+    setName({ ...name, isLoading: true });
+    axios
+      .post("http://localhost:5000/api/login", name)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("token", res.data.payload);
+      })
+      .catch((err) => console.log(err.response));
+    props.history.push("/protected");
+  };
 
   return (
-    <div className="container">
-      <Form>
-        <div className="field">
-          <div className="control">
-            <label className="label">User Name</label>
-            {touched.username && errors.username && <p>{errors.username}</p>}
-            <Field
-              className="input"
+    <div className="login-card">
+      <form
+        className="login-modal"
+        onSubmit={(event) => handleSubmit(event)}
+        onKeyDown={props.closeLoginHandler2}
+        tabIndex="0"
+      >
+        <h1 className="title">Welcome Back</h1>
+        <p className="login-inputs">
+          <label>
+            Username:
+            <input
+              className="input-forms"
               type="text"
               name="username"
-              placeholder="User Name"
+              onChange={changeHandler}
+              value={name.username}
             />
-          </div>
-        </div>
-        <div className="field">
-          <div className="control">
-            <label className="label">Password</label>
-            {touched.password && errors.password && <p>{errors.password}</p>}
-            <Field
-              className="input"
+          </label>
+        </p>
+
+        <p className="login-inputs">
+          <label>
+            Password:
+            <input
+              className="input-forms"
               type="password"
               name="password"
-              placeholder="Password"
+              onChange={changeHandler}
+              value={name.password}
             />
-          </div>
-        </div>
-        <button disabled={isSubmitting}>Submit</button>
-      </Form>
+          </label>
+        </p>
+        {/*not sure why I cant get my the loader spinner to work. */}
+        <button type="submit" className="login-button" onClick={login}>
+          Login
+        </button>
+      </form>
     </div>
   );
 };
 
-const FormikLogin = withFormik({
-  mapPropsToValues({ email, password, tos, dummy, test }) {
-    return {
-      email: email || "",
-      password: password || "",
-      tos: tos || false,
-      dummy: dummy || "atom",
-      test: test || "",
-    };
-  },
-
-  validationSchema: Yup.object().shape({
-    username: Yup.string()
-      .min(6, "Must be longer")
-      .required("A username is required!"),
-    password: Yup.string()
-      .min(9, "Password must be 9 characters or longer")
-      .required("Password is required"),
-  }),
-  handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
-    setTimeout(() => {
-      setSubmitting(false);
-    }, 2000);
-  },
-})(Login);
-
-export default FormikLogin;
+export default withRouter(LoginForm);

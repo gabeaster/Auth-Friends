@@ -9,9 +9,6 @@ function App() {
   return (
     <div className="App">
       <h1>Friends Auth Project</h1>
-      <Switch>
-        <Route path="/login" component={Login} />
-      </Switch>
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Login} />
