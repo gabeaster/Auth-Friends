@@ -1,18 +1,44 @@
+body {
+  background-color: #e67a22 !important;
+  color: #2c2f36 !important;
+}
+
 .App {
   text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.input-container {
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-around;
+  width: 70%;
 }
 
-.App-link {
-  color: #61dafb;
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 85%;
+  margin: 0 auto;
+}
+
+.card {
+  border: 1px solid #333 !important;
+  width: 29%;
+  height: 300px;
+  margin: 1.5rem;
+  color: #2c2f36;
+  background-color: #c67b47 !important;
+  border: 2px solid #c67b47 !important;
+  font-size: 1.3rem;
+  box-shadow: 2px 4px 14px #111;
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+.card-text {
+  padding-top: 1rem;
 }

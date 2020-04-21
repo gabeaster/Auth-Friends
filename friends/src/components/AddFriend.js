@@ -30,7 +30,7 @@ const AddFriend = (props) => {
         onKeyDown={props.closeLoginHandler2}
         tabIndex="0"
       >
-        <h1 className="loginTitle">Add More Friends</h1>
+        <h1 className="loginTitle">Add Another Friend</h1>
         <div className="input-container">
           <p className="login-inputs">
             <label>
